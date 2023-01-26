@@ -1,0 +1,141 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node*next;
+};
+void insertStart(struct node** head,int data){
+	struct node* n=(struct node*)malloc(sizeof(struct node));
+	n->data=data; 
+	n->next=*head;
+	
+	*head=n;
+}
+void insertLast(struct node** head,int data){
+	struct node* n=(struct node*)malloc(sizeof(struct node));
+	n->data=data;
+	n->next=NULL;
+	
+	if(*head==NULL){
+		*head=n;
+		return;
+	}
+	
+	struct node* temp=*head;
+	
+	while(temp->next!=NULL)
+		temp=temp->next;
+		
+		
+	temp->next=n;
+	
+}
+void search(struct node* head,int data){
+	int l=0;
+	while(head!=NULL){
+		if(head->data==data){
+		printf("element found\n");
+		l=1;
+		break;
+	}
+		head=head->next;
+	}
+	if(l==0)
+	printf("element not present in list\n");
+}
+void display(struct node* node){
+	if(node==NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+	while(node!=NULL){
+		printf("%d ",node->data);
+		node=node->next;
+	}
+	printf("\n");
+}
+void deletebeg(struct node**head)
+{
+	struct node* temp=*head;
+	if(*head==NULL)
+	{
+		printf("Linked list is already empty\n");
+		return;
+	}
+	*head=temp->next;
+	free(temp);
+	temp=NULL;
+}
+void deletespec(struct node* head,int data)
+{
+	struct node* prev=head;
+	struct node* current=head;
+	if(head==NULL)
+	{
+		printf("Linked list is already empty\n");
+		return;
+	}
+	while(current->data!=data)
+	{
+		prev=current;
+		current=current->next;
+	}
+	prev->next=current->next;
+	free(current);
+	current=NULL;
+}
+void deleteEnd(struct node*head)
+{
+	struct node* temp=head;
+	struct node* temp2=head;
+	while(temp->next!=NULL)
+	{
+		temp2=temp;
+		temp=temp->next;
+	}
+	temp2->next=NULL;
+	free(temp);
+	temp=NULL;
+}
+main()
+{
+	struct node* head=NULL;
+	int data,n;
+	do{
+	printf("1.Insert at begin\n2.Insert at last\n3.Searching\n4.Traverse\n5.Delete Beginning\n6.Delete end\n7.Delete specific location\n8.Exit\n");
+	scanf("%d",&n);
+	switch(n){
+		case 1:
+			printf("enter element to insert: ");
+			scanf("%d",&data);
+			insertStart(&head,data);
+			break;
+		case 2:
+			printf("enter element to insert: ");
+			scanf("%d",&data);
+			insertLast(&head,data);
+			break;
+		case 3:
+			printf("enter element to search:");
+			scanf("%d",&data);
+			search(head,data);
+			break;
+		case 4:
+			display(head);
+			break;
+		case 7:
+			printf("Enter element to delete:");
+			scanf("%d",&data);
+			deletespec(head,data);
+			break;
+		case 5:
+			deletebeg(&head);
+			break;
+		case 6:
+			deleteEnd(head);
+			break;
+	}
+	}while(n!=8);
+	
+}
